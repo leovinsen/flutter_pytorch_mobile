@@ -84,7 +84,15 @@ public class PyTorchMobilePlugin implements FlutterPlugin, MethodCallHandler {
           result.success(null);
         }
 
-        successResult(result, dtype, outputTensor);
+        //IMPORTANT NOTICE: 
+        //Custom override to always get data as float array
+        float[] outputDouble = outputTensor.getDataAsFloatArray();
+
+        ArrayList<Float> outputListFloat = new ArrayList<>();
+        for(Float f : outputTensor.getDataAsFloatArray()){
+          outputListFloat.add(f);
+        }
+        result.success(outputListFloat);
 
         break;
       case "predictImage":
